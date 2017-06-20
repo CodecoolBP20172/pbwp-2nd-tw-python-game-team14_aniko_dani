@@ -1,21 +1,32 @@
 # Prints out the gameboard.
 def printgameboard(gameboard):
     print("     |     |     ")
-    print("  %c  |  %c  |  %c  " % (gameboard[1], gameboard[2], gameboard[3]))
+    print("  %s  |  %s  |  %s  " % (gameboard[1], gameboard[2], gameboard[3]))
     print("_____|_____|_____")
     print("     |     |     ")
-    print("  %c  |  %c  |  %c  " % (gameboard[4], gameboard[5], gameboard[6]))
+    print("  %s  |  %s  |  %s  " % (gameboard[4], gameboard[5], gameboard[6]))
     print("_____|_____|_____")
     print("     |     |     ")
-    print("  %c  |  %c  |  %c  " % (gameboard[7], gameboard[8], gameboard[9]))
+    print("  %s  |  %s  |  %s  " % (gameboard[7], gameboard[8], gameboard[9]))
     print("     |     |     ")
 
 # Prints out the game's startpage.
 
 
+
 def startpage():
-    startboard = [" ", "T", "I", "C", "T", "A", "C", "T", "O", "E"]
-    printgameboard(startboard)
+
+    print("     |     |     ")
+    print(" \x1b[31;1m {0} \x1b[0m | \x1b[32;1m {1} \x1b[0m | \x1b[33;1m {2} \x1b[0m ".format("T", "I", "C"))
+    print("_____|_____|_____")
+    print("     |     |     ")
+    print(" \x1b[34;1m {0} \x1b[0m | \x1b[35;1m {1} \x1b[0m | \x1b[36;1m {2} \x1b[0m ".format("T", "A", "C"))
+    print("_____|_____|_____")
+    print("     |     |     ")
+    print(" \x1b[93;1m {0} \x1b[0m | \x1b[91;1m {1} \x1b[0m | \x1b[37;1m {2} \x1b[0m ".format("T", "O", "E"))
+    print("     |     |     ")
+
+   
     while True:
         mode = input("Press 1 (two player) or 0 (computer) to start! ")
         if mode == "1":
@@ -56,14 +67,21 @@ def readAI():
 
 
 def stoppage():
-    endboard = [" ", "G", "A", "M", "E", " ", "O", "V", "E", "R"]
-    printgameboard(endboard)
+    print("     |     |     ")
+    print(" \x1b[31;1m {0} \x1b[0m | \x1b[32;1m {1} \x1b[0m | \x1b[33;1m {2} \x1b[0m ".format("G", "A", "M"))
+    print("_____|_____|_____")
+    print("     |     |     ")
+    print(" \x1b[34;1m {0} \x1b[0m | \x1b[35;1m {1} \x1b[0m | \x1b[36;1m {2} \x1b[0m ".format("M", "E", "O"))
+    print("_____|_____|_____")
+    print("     |     |     ")
+    print(" \x1b[93;1m {0} \x1b[0m | \x1b[91;1m {1} \x1b[0m | \x1b[37;1m {2} \x1b[0m ".format("V", "E", "R"))
+    print("     |     |     ")
 
 # This function checks the winning and draw state, its return value stops or leaves running the game.
 
 
 def win(gameboard):
-    mark = "X"
+    mark = mark_x
     if gameboard[1] == mark and gameboard[2] == mark and gameboard[3] == mark:
         printgameboard(gameboard)
         print("Player 1 won!")
@@ -110,7 +128,7 @@ def win(gameboard):
         stoppage()
         return True
 
-    mark = "O"
+    mark = mark_o
     if gameboard[1] == mark and gameboard[2] == mark and gameboard[3] == mark:
         printgameboard(gameboard)
         print("Player 2 won!")
@@ -128,7 +146,7 @@ def win(gameboard):
         return True
     if gameboard[1] == mark and gameboard[4] == mark and gameboard[7] == mark:
         printgameboard(gameboard)
-        print("Player 2 won!")
+        print("Player 2 won!") 
         stoppage()
         return True
     if gameboard[2] == mark and gameboard[5] == mark and gameboard[8] == mark:
@@ -160,6 +178,10 @@ def win(gameboard):
     return False
 
 
+
+mark_x = '\x1b[34;1mX\x1b[0m'
+mark_o = '\x1b[31;1mO\x1b[0m' 
+
 import random
 
 # Makes a list with 9 space characters.
@@ -180,7 +202,7 @@ while gameover == False:
         print("Player 1")
         printgameboard(gameboard)
         inp = readchoice()
-        gameboard[inp] = "X"
+        gameboard[inp] = mark_x
         gameover = win(gameboard)
         whoisnext = 2
 
@@ -189,13 +211,13 @@ while gameover == False:
             print("Player 2")
             printgameboard(gameboard)
             inp = readchoice()
-            gameboard[inp] = "O"
+            gameboard[inp] = mark_o
             gameover = win(gameboard)
             whoisnext = 1
         else:
             print("Player 2 - A.I.")
             printgameboard(gameboard)
             inp = readAI()
-            gameboard[inp] = "O"
+            gameboard[inp] = mark_o
             gameover = win(gameboard)
             whoisnext = 1
