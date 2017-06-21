@@ -1,13 +1,16 @@
 # Prints out the gameboard.
 def printgameboard(gameboard):
+    clear = lambda: os.system('clear')
+    clear()
+
     print("     |     |     ")
-    print("  %s  |  %s  |  %s  " % (gameboard[1], gameboard[2], gameboard[3]))
+    print("  {0}  |  {1}  |  {2}  ".format(gameboard[1], gameboard[2], gameboard[3]))
     print("_____|_____|_____")
     print("     |     |     ")
-    print("  %s  |  %s  |  %s  " % (gameboard[4], gameboard[5], gameboard[6]))
+    print("  {0}  |  {1}  |  {2}  ".format(gameboard[4], gameboard[5], gameboard[6]))
     print("_____|_____|_____")
     print("     |     |     ")
-    print("  %s  |  %s  |  %s  " % (gameboard[7], gameboard[8], gameboard[9]))
+    print("  {0}  |  {1}  |  {2}  ".format(gameboard[7], gameboard[8], gameboard[9]))
     print("     |     |     ")
 
 # Prints out the game's startpage.
@@ -183,6 +186,7 @@ mark_x = '\x1b[34;1mX\x1b[0m'
 mark_o = '\x1b[31;1mO\x1b[0m' 
 
 import random
+import os
 
 # Makes a list with 9 space characters.
 gameboard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
@@ -199,8 +203,8 @@ whoisnext = 1
 # The game is running until the value of 'gameover' is 'False'.
 while gameover == False:
     if whoisnext == 1:
-        print("Player 1")
         printgameboard(gameboard)
+        print("Player 1")
         inp = readchoice()
         gameboard[inp] = mark_x
         gameover = win(gameboard)
@@ -208,15 +212,15 @@ while gameover == False:
 
     elif whoisnext == 2:
         if not computermode:
-            print("Player 2")
             printgameboard(gameboard)
+            print("Player 2")
             inp = readchoice()
             gameboard[inp] = mark_o
             gameover = win(gameboard)
             whoisnext = 1
         else:
-            print("Player 2 - A.I.")
             printgameboard(gameboard)
+            print("Player 2 - A.I.")
             inp = readAI()
             gameboard[inp] = mark_o
             gameover = win(gameboard)
