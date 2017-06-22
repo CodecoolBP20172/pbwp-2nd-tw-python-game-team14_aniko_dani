@@ -15,8 +15,6 @@ def print_gameboard(gameboard):
     print("     |     |     ")
 
 # Prints out the game's start_page.
-
-
 def start_page(names):
 
     print("Welcome to Tic-tac-toe!")
@@ -42,22 +40,30 @@ def start_page(names):
     print("     |     |     ")
 
     while True:
-        mode = input("Press 1 (two player) or 0 (computer) to start! ")
-        if mode == "1":
-            names.append(input("Enter your name: "))
-            names.append(input("Enter your name: "))
-            return False
-        if mode == "0":
-            names.append(input("Enter your name: "))
-            names.append("A.I.")
-            return True
+        try:
+            mode = input("Press 1 (two player) or 0 (computer) to start! ")
+            if mode == "1":
+                names.append(input("Enter your name: "))
+                names.append(input("Enter your name: "))
+                return False
+            if mode == "0":
+                names.append(input("Enter your name: "))
+                names.append("A.I.")
+                return True
+        except KeyboardInterrupt:
+            print("\nJust for Miki's favor!:D")
+            continue
 
 
 # This function checks position is empty or not and also check is it a number between 1 and 9.
 def read_choice():
 
     while True:
-        input_str = input("Enter a number between [1-9] where you want to mark: ")
+        try:
+            input_str = input("Enter a number between [1-9] where you want to mark: ")
+        except KeyboardInterrupt:
+            print("\nJust for Miki's favor!:D")
+            continue
         try:
             number = int(input_str)
         except ValueError:
@@ -69,11 +75,10 @@ def read_choice():
         if (gameboard[number] != ' '):
             print("Sorry its already taken... Take another pick!")
             continue
+
         return number
 
 # This function control the AI.
-
-
 def read_ai():
 
     for i in range(1, 10):
@@ -110,13 +115,6 @@ def read_ai():
         if gameboard[position] == ' ':
             return position
 
-    # Try to take the center, if it is free.
-    if isSpaceFree(board, 5):
-        return 5
-
-    # Move on one of the sides.
-    return chooseRandomMoveFromList(board, [2, 4, 6, 8])
-
 
 # Prints out "GAME OVER" if the game is ended.
 def stop_page():
@@ -132,8 +130,6 @@ def stop_page():
     print("     |     |     ")
 
 # This function checks the winning and draw state, its return value stops or leaves running the game.
-
-
 def win(gameboard):
 
     win = False
