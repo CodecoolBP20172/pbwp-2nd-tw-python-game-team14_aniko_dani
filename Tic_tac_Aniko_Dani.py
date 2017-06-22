@@ -15,8 +15,11 @@ def print_gameboard(gameboard):
     print("     |     |     ")
 
 # Prints out the game's start_page.
+
+
 def start_page(names):
 
+    print("Welcome to Tic-tac-toe!")
     print("     |     |     ")
     print(" \x1b[31;1m {0} \x1b[0m | \x1b[32;1m {1} \x1b[0m | \x1b[33;1m {2} \x1b[0m ".format("T", "I", "C"))
     print("_____|_____|_____")
@@ -25,6 +28,17 @@ def start_page(names):
     print("_____|_____|_____")
     print("     |     |     ")
     print(" \x1b[93;1m {0} \x1b[0m | \x1b[91;1m {1} \x1b[0m | \x1b[37;1m {2} \x1b[0m ".format("T", "O", "E"))
+    print("     |     |     ")
+
+    print("\n This how you can chose the place which you want to mark.")
+    print("     |     |     ")
+    print(" \x1b[31;1m {0} \x1b[0m | \x1b[32;1m {1} \x1b[0m | \x1b[33;1m {2} \x1b[0m ".format("1", "2", "3"))
+    print("_____|_____|_____")
+    print("     |     |     ")
+    print(" \x1b[34;1m {0} \x1b[0m | \x1b[35;1m {1} \x1b[0m | \x1b[36;1m {2} \x1b[0m ".format("4", "5", "6"))
+    print("_____|_____|_____")
+    print("     |     |     ")
+    print(" \x1b[93;1m {0} \x1b[0m | \x1b[91;1m {1} \x1b[0m | \x1b[37;1m {2} \x1b[0m ".format("7", "8", "9"))
     print("     |     |     ")
 
     while True:
@@ -38,9 +52,10 @@ def start_page(names):
             names.append("A.I.")
             return True
 
+
 # This function checks position is empty or not and also check is it a number between 1 and 9.
 def read_choice():
-    
+
     while True:
         input_str = input("Enter a number between [1-9] where you want to mark: ")
         try:
@@ -56,18 +71,56 @@ def read_choice():
             continue
         return number
 
-# This function checks empty position in computer mode.
+# This function control the AI.
+
+
 def read_ai():
-    
-    while True:
-        number = random.randint(1, 9)
-        if (gameboard[number] != ' '):
-            continue
-        return number
+
+    for i in range(1, 10):
+        copy_gameboard = list(gameboard)
+        if copy_gameboard[i] == ' ':
+            copy_gameboard[i] = mark_o
+            if win(copy_gameboard):
+                return i
+
+    for i in range(1, 10):
+        copy_gameboard = list(gameboard)
+        if copy_gameboard[i] == ' ':
+            copy_gameboard[i] = mark_x
+            if win(copy_gameboard):
+                return i
+
+    corner_positions = [1, 3, 7, 9]
+    while len(corner_positions) > 0:
+        corner_index = random.randint(0, len(corner_positions) - 1)
+        position = corner_positions[corner_index]
+        if gameboard[position] == ' ':
+            return position
+
+        else:
+            list.remove(position)
+
+    if gameboard[5] == ' ':
+        return 5
+
+    other_positions = [2, 4, 6, 8]
+    while len(other_positions) > 0:
+        other_index = random.randint(0, len(other_positions) - 1)
+        position = other_positions[other_index]
+        if gameboard[position] == ' ':
+            return position
+
+    # Try to take the center, if it is free.
+    if isSpaceFree(board, 5):
+        return 5
+
+    # Move on one of the sides.
+    return chooseRandomMoveFromList(board, [2, 4, 6, 8])
+
 
 # Prints out "GAME OVER" if the game is ended.
 def stop_page():
-    
+
     print("     |     |     ")
     print(" \x1b[31;1m {0} \x1b[0m | \x1b[32;1m {1} \x1b[0m | \x1b[33;1m {2} \x1b[0m ".format("G", "A", "M"))
     print("_____|_____|_____")
@@ -79,11 +132,13 @@ def stop_page():
     print("     |     |     ")
 
 # This function checks the winning and draw state, its return value stops or leaves running the game.
+
+
 def win(gameboard):
-    
+
     win = False
     marks = [mark_x, mark_o]
-    
+
     for mark in marks:
         if gameboard[1] == mark and gameboard[2] == mark and gameboard[3] == mark:
             win = True
@@ -102,13 +157,13 @@ def win(gameboard):
         elif gameboard[3] == mark and gameboard[5] == mark and gameboard[7] == mark:
             win = True
         elif (gameboard[1] != ' ' and gameboard[2] != ' ' and gameboard[3] != ' '
-             and gameboard[4] != ' ' and gameboard[5] != ' ' and gameboard[6] != ' '
-             and gameboard[7] != ' ' and gameboard[8] != ' ' and gameboard[9] != ' '):
+              and gameboard[4] != ' ' and gameboard[5] != ' ' and gameboard[6] != ' '
+              and gameboard[7] != ' ' and gameboard[8] != ' ' and gameboard[9] != ' '):
             print("Game draw!")
             stop_page()
             return True
-        
-        if win == True:
+
+        if win:
             print_gameboard(gameboard)
             if mark == mark_x:
                 print("{0} won!".format(names[0]))
@@ -131,6 +186,7 @@ gameover = False
 names = []
 mark_x = '\x1b[34;1mX\x1b[0m'
 mark_o = '\x1b[31;1mO\x1b[0m'
+
 
 # The start_page function returns back whether we chose computer or two player mode.
 computer_mode = start_page(names)
