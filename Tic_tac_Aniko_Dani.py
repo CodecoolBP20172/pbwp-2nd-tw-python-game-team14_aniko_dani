@@ -1,6 +1,7 @@
 # Prints out the gameboard.
-def printgameboard(gameboard):
-    clear = lambda: os.system('clear')
+def print_gameboard(gameboard):
+
+    def clear(): return os.system('clear')
     clear()
 
     print("     |     |     ")
@@ -13,11 +14,8 @@ def printgameboard(gameboard):
     print("  {0}  |  {1}  |  {2}  ".format(gameboard[7], gameboard[8], gameboard[9]))
     print("     |     |     ")
 
-# Prints out the game's startpage.
-
-
-
-def startpage():
+# Prints out the game's start_page.
+def start_page(names):
 
     print("     |     |     ")
     print(" \x1b[31;1m {0} \x1b[0m | \x1b[32;1m {1} \x1b[0m | \x1b[33;1m {2} \x1b[0m ".format("T", "I", "C"))
@@ -29,18 +27,20 @@ def startpage():
     print(" \x1b[93;1m {0} \x1b[0m | \x1b[91;1m {1} \x1b[0m | \x1b[37;1m {2} \x1b[0m ".format("T", "O", "E"))
     print("     |     |     ")
 
-   
     while True:
         mode = input("Press 1 (two player) or 0 (computer) to start! ")
         if mode == "1":
+            names.append(input("Enter your name: "))
+            names.append(input("Enter your name: "))
             return False
         if mode == "0":
+            names.append(input("Enter your name: "))
+            names.append("A.I.")
             return True
 
 # This function checks position is empty or not and also check is it a number between 1 and 9.
-
-
-def readchoice():
+def read_choice():
+    
     while True:
         input_str = input("Enter a number between [1-9] where you want to mark: ")
         try:
@@ -57,9 +57,8 @@ def readchoice():
         return number
 
 # This function checks empty position in computer mode.
-
-
-def readAI():
+def read_ai():
+    
     while True:
         number = random.randint(1, 9)
         if (gameboard[number] != ' '):
@@ -67,123 +66,59 @@ def readAI():
         return number
 
 # Prints out "GAME OVER" if the game is ended.
-
-
-def stoppage():
+def stop_page():
+    
     print("     |     |     ")
     print(" \x1b[31;1m {0} \x1b[0m | \x1b[32;1m {1} \x1b[0m | \x1b[33;1m {2} \x1b[0m ".format("G", "A", "M"))
     print("_____|_____|_____")
     print("     |     |     ")
-    print(" \x1b[34;1m {0} \x1b[0m | \x1b[35;1m {1} \x1b[0m | \x1b[36;1m {2} \x1b[0m ".format("M", "E", "O"))
+    print(" \x1b[34;1m {0} \x1b[0m | \x1b[35;1m {1} \x1b[0m | \x1b[36;1m {2} \x1b[0m ".format("E", " ", "O"))
     print("_____|_____|_____")
     print("     |     |     ")
     print(" \x1b[93;1m {0} \x1b[0m | \x1b[91;1m {1} \x1b[0m | \x1b[37;1m {2} \x1b[0m ".format("V", "E", "R"))
     print("     |     |     ")
 
 # This function checks the winning and draw state, its return value stops or leaves running the game.
-
-
 def win(gameboard):
-    mark = mark_x
-    if gameboard[1] == mark and gameboard[2] == mark and gameboard[3] == mark:
-        printgameboard(gameboard)
-        print("Player 1 won!")
-        stoppage()
-        return True
-    if gameboard[4] == mark and gameboard[5] == mark and gameboard[6] == mark:
-        printgameboard(gameboard)
-        print("Player 1 won!")
-        stoppage()
-        return True
-    if gameboard[7] == mark and gameboard[8] == mark and gameboard[9] == mark:
-        printgameboard(gameboard)
-        print("Player 1 won!")
-        stoppage()
-        return True
-    if gameboard[1] == mark and gameboard[4] == mark and gameboard[7] == mark:
-        printgameboard(gameboard)
-        print("Player 1 won!")
-        stoppage()
-        return True
-    if gameboard[2] == mark and gameboard[5] == mark and gameboard[8] == mark:
-        printgameboard(gameboard)
-        print("Player 1 won!")
-        stoppage()
-        return True
-    if gameboard[3] == mark and gameboard[6] == mark and gameboard[9] == mark:
-        printgameboard(gameboard)
-        print("Player 1 won!")
-        stoppage()
-        return True
-    if gameboard[1] == mark and gameboard[5] == mark and gameboard[9] == mark:
-        printgameboard(gameboard)
-        print("Player 1 won!")
-        stoppage()
-        return True
-    if gameboard[3] == mark and gameboard[5] == mark and gameboard[7] == mark:
-        printgameboard(gameboard)
-        print("Player 1 won!")
-        stoppage()
-        return True
-    if gameboard[1] != ' ' and gameboard[2] != ' ' and gameboard[3] != ' ' and gameboard[4] != ' ' and gameboard[
-            5] != ' ' and gameboard[6] != ' ' and gameboard[7] != ' ' and gameboard[8] != ' ' and gameboard[9] != ' ':
-        print("Game Draw!")
-        stoppage()
-        return True
-
-    mark = mark_o
-    if gameboard[1] == mark and gameboard[2] == mark and gameboard[3] == mark:
-        printgameboard(gameboard)
-        print("Player 2 won!")
-        stoppage()
-        return True
-    if gameboard[4] == mark and gameboard[5] == mark and gameboard[6] == mark:
-        printgameboard(gameboard)
-        print("Player 2 won!")
-        stoppage()
-        return True
-    if gameboard[7] == mark and gameboard[8] == mark and gameboard[9] == mark:
-        printgameboard(gameboard)
-        print("Player 2 won!")
-        stoppage()
-        return True
-    if gameboard[1] == mark and gameboard[4] == mark and gameboard[7] == mark:
-        printgameboard(gameboard)
-        print("Player 2 won!") 
-        stoppage()
-        return True
-    if gameboard[2] == mark and gameboard[5] == mark and gameboard[8] == mark:
-        printgameboard(gameboard)
-        print("Player 2 won!")
-        stoppage()
-        return True
-    if gameboard[3] == mark and gameboard[6] == mark and gameboard[9] == mark:
-        printgameboard(gameboard)
-        print("Player 2 won!")
-        stoppage()
-        return True
-    if gameboard[1] == mark and gameboard[5] == mark and gameboard[9] == mark:
-        printgameboard(gameboard)
-        print("Player 2 won!")
-        stoppage()
-        return True
-    if gameboard[3] == mark and gameboard[5] == mark and gameboard[7] == mark:
-        printgameboard(gameboard)
-        print("Player 2 won!")
-        stoppage()
-        return True
-    if gameboard[1] != ' ' and gameboard[2] != ' ' and gameboard[3] != ' ' and gameboard[4] != ' ' and gameboard[
-            5] != ' ' and gameboard[6] != ' ' and gameboard[7] != ' ' and gameboard[8] != ' ' and gameboard[9] != ' ':
-        print("Game Draw!")
-        stoppage()
-        return True
+    
+    win = False
+    marks = [mark_x, mark_o]
+    
+    for mark in marks:
+        if gameboard[1] == mark and gameboard[2] == mark and gameboard[3] == mark:
+            win = True
+        elif gameboard[4] == mark and gameboard[5] == mark and gameboard[6] == mark:
+            win = True
+        elif gameboard[7] == mark and gameboard[8] == mark and gameboard[9] == mark:
+            win = True
+        elif gameboard[1] == mark and gameboard[4] == mark and gameboard[7] == mark:
+            win = True
+        elif gameboard[2] == mark and gameboard[5] == mark and gameboard[8] == mark:
+            win = True
+        elif gameboard[3] == mark and gameboard[6] == mark and gameboard[9] == mark:
+            win = True
+        elif gameboard[1] == mark and gameboard[5] == mark and gameboard[9] == mark:
+            win = True
+        elif gameboard[3] == mark and gameboard[5] == mark and gameboard[7] == mark:
+            win = True
+        elif (gameboard[1] != ' ' and gameboard[2] != ' ' and gameboard[3] != ' '
+             and gameboard[4] != ' ' and gameboard[5] != ' ' and gameboard[6] != ' '
+             and gameboard[7] != ' ' and gameboard[8] != ' ' and gameboard[9] != ' '):
+            print("Game draw!")
+            stop_page()
+            return True
+        
+        if win == True:
+            print_gameboard(gameboard)
+            if mark == mark_x:
+                print("{0} won!".format(names[0]))
+            elif mark == mark_o:
+                print("{0} won!".format(names[1]))
+            stop_page()
+            return True
 
     return False
 
-
-
-mark_x = '\x1b[34;1mX\x1b[0m'
-mark_o = '\x1b[31;1mO\x1b[0m' 
 
 import random
 import os
@@ -193,35 +128,37 @@ gameboard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
 
 # The variable 'gameover' starts with value False.
 gameover = False
+names = []
+mark_x = '\x1b[34;1mX\x1b[0m'
+mark_o = '\x1b[31;1mO\x1b[0m'
 
-# The startpage function returns back whether we chose computer or two player mode.
-computermode = startpage()
+# The start_page function returns back whether we chose computer or two player mode.
+computer_mode = start_page(names)
 
 # The game starts with the first player.
-whoisnext = 1
+who_is_next = 1
 
 # The game is running until the value of 'gameover' is 'False'.
 while gameover == False:
-    if whoisnext == 1:
-        printgameboard(gameboard)
-        print("Player 1")
-        inp = readchoice()
+    if who_is_next == 1:
+        print_gameboard(gameboard)
+        print("{0}".format(names[0]))
+        inp = read_choice()
         gameboard[inp] = mark_x
         gameover = win(gameboard)
-        whoisnext = 2
-
-    elif whoisnext == 2:
-        if not computermode:
-            printgameboard(gameboard)
-            print("Player 2")
-            inp = readchoice()
+        who_is_next = 2
+    elif who_is_next == 2:
+        if not computer_mode:
+            print_gameboard(gameboard)
+            print("{0}".format(names[1]))
+            inp = read_choice()
             gameboard[inp] = mark_o
             gameover = win(gameboard)
-            whoisnext = 1
+            who_is_next = 1
         else:
-            printgameboard(gameboard)
-            print("Player 2 - A.I.")
-            inp = readAI()
+            print_gameboard(gameboard)
+            print("{0}".format(names[1]))
+            inp = read_ai()
             gameboard[inp] = mark_o
             gameover = win(gameboard)
-            whoisnext = 1
+            who_is_next = 1
